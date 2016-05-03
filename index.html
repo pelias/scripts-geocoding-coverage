@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mapzen Search Geocoder Coverage by Country</title>
+    <style>
+        body {
+            background-color: white;
+        }
+
+        h1 {
+            font-family: Geneva, Tahoma, Verdana, sans-serif;
+            font-size: 24px;
+            font-style: normal;
+            font-variant: normal;
+            font-weight: 500;
+            line-height: 26.4px;
+            color: #3F3FBF;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<script src="Chart.min.js"></script>
+<script src="countries_data_bundle.js"></script>
+
+<h1>Mapzen Search Geocoder Coverage by Country</h1>
+<br>
+<h1>Addresses per Person</h1>
+<canvas id="myChart" width=600 height=150 style="width: 600px; height: 150px"></canvas>
+<h1>Records by Layer</h1>
+<canvas id="myChart1" width=600 height=150 style="width: 600px; height: 150px"></canvas>
+<h1>Records by Source</h1>
+<canvas id="myChart2" width=600 height=150 style="width: 600px; height: 150px"></canvas>
+
+<script>
+    window.data = {labels: [], data: []};
+    window.sortable = [];
+    Object.keys(window.Countries()).forEach(function (iso3) {
+        var country = window.Countries()[iso3];
+
+        //var people_per_address = (country.population > 0 && country.records.address > 0) ? (country.population / country.records.address) : 9999999;
+        var address_per_person = (country.population > 0 && country.records.address > 0) ? (country.records.address / country.population) : 0;
+
+        if (address_per_person > 0.005) {
+            sortable.push({label: country.name, value: address_per_person, country: country});
+        }
+    });
+
+    sortable.sort(function (a, b) {
+        return (a.value < b.value) ? 1 : -1;
+    });
+</script>
+<script>
+    window.data.labels = sortable.map(function (item) {
+        return item.label;
+    });
+    window.data.data = sortable.map(function (item) {
+        return item.value;
+    });
+
+
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: data.labels,
+            datasets: [{
+                label: 'addresses/person',
+                data: data.data,
+                backgroundColor: "rgba(170,18,198,0.5)"
+            }]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    ticks: {
+                        autoSkip: false
+                    }
+                }]
+            }
+        }
+    });
+</script>
+<script>
+    var layers = ['address', 'venue', 'neighbourhood', 'localadmin', 'locality', 'county', 'region', 'macroregion'];
+    var layers_colors = {
+        'address':  "rgba(170,18,198,0.5)",
+        'venue': 'rgba(191, 191, 63, 0.7)',
+        'neighbourhood': 'rgba(63, 191, 127, 0.7)',
+        'localadmin': 'rgba(191, 163, 191, 0.7)',
+        'locality': 'rgba(63, 191, 191, 0.7)',
+        'county': 'rgba(114, 140, 140, 0.7)',
+        'region': 'rgba(63, 63, 191, 0.7)',
+        'macroregion': 'rgba(191, 63, 127, 0.7)'
+    };
+
+    layers.forEach(function (layer) {
+        window.data[layer] = window.sortable.map(function (item) {
+            return item.country.records[layer] / item.country.records.total * 100;
+        });
+    });
+
+    var datasets = [];
+    layers.forEach(function (layer) {
+       datasets.push({
+           label: layer,
+           data: window.data[layer],
+           backgroundColor: layers_colors[layer]
+       })
+    });
+
+    var ctx2 = document.getElementById("myChart1").getContext('2d');
+    var myChart1 = new Chart(ctx2, {
+        type: 'bar',
+        options: {
+            scales: {
+                xAxes: [{
+                    stacked: true,
+                    ticks: {
+                        autoSkip: false
+                    }
+                }],
+                yAxes: [{
+                    stacked: true
+                }]
+            }
+        },
+        data: {
+            labels: window.data.labels,
+            datasets: datasets
+        }
+    });
+</script>
+<script>
+    var sources = ['openaddresses', 'openstreetmap', 'whosonfirst', 'geonames'];
+    var sources_colors = {
+        'openaddresses':  "rgba(170,18,198,0.5)",
+        'openstreetmap': 'rgba(191, 191, 63, 0.7)',
+        'whosonfirst': 'rgba(63, 191, 127, 0.7)',
+        'geonames': 'rgba(63, 191, 191, 0.7)',
+    };
+
+    sources.forEach(function (source) {
+        data[source] = window.sortable.map(function (item) {
+            return item.country.records[source] / item.country.records.total * 100;
+        });
+    });
+    var datasets = [];
+    sources.forEach(function (source) {
+        datasets.push({
+            label: source,
+            data: window.data[source],
+            backgroundColor: sources_colors[source]
+        })
+    });
+
+    var ctx2 = document.getElementById("myChart2").getContext('2d');
+    var myChart1 = new Chart(ctx2, {
+        type: 'bar',
+        options: {
+            scales: {
+                xAxes: [{
+                    stacked: true,
+                    ticks: {
+                        autoSkip: false
+                    }
+                }],
+                yAxes: [{
+                    stacked: true
+                }]
+            }
+        },
+        data: {
+            labels: window.data.labels,
+            datasets: datasets
+        }
+    });
+</script>
+</body>
+</html>
