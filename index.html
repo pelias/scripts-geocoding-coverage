@@ -6,263 +6,167 @@
     <title>Mapzen Search Geocoder Coverage by Country</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://mapzen.com/common/styleguide/styles/styleguide.css">
+    <link rel="stylesheet" href="css/awesomplete.css" />
 </head>
-<body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.0.0/Chart.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.2.0/list.min.js"></script>
-<script src="countries_data_bundle.js"></script>
 
-<div class="container">
-    <div class="row">
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.0.0/Chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.2.0/list.min.js"></script>
+    <script src="javascript/awesomplete.min.js" async></script>
+    <script src="data/countries_data.js"></script>
+    <script src="javascript/topCountriesCharts.js"></script>
+    <script src="javascript/countryDrillDown.js"></script>
+    <script src="javascript/detailsTable.js"></script>
+
+    <div class="container">
         <div>
             <h1>Mapzen Search </h1>
-            <h2>Top Coverage Countries</h2>
-            <br>
-            <h3>Addresses per Person</h3>
-            <canvas id="myChart"></canvas>
-            <h3>Records by Source</h3>
-            <canvas id="myChart2"></canvas>
-            <h3>Records by Layer</h3>
-            <canvas id="myChart1"></canvas>
+            <h2>Top Coverage Countries</h2><br/>
 
-            <div id="details">
+            <h3>Addresses & Venues per Person</h3> <br/>
+            <canvas id="top-countries"></canvas>
 
-                <div class='col-xs-12 text-center'>
-                    <img src='https://mapzen.com/common/styleguide/images/divider/compass-lg-blue.png'>
-                </div>
+            <h3>Records by Source</h3> </div> <br/>
+            <canvas id="top-countries-by-source"></canvas>
 
-                <div class='col-xs-12 text-left'>
-                    <h2 class="headroom">Details</h2>
+            <h3>Records by Layer</h3> <br/>
+            <canvas id="top-countries-by-layer"></canvas>
 
-                    <input class="search" size="60" placeholder="Search" />
-                    <br/>
-                    <br/>
+            <div class='text-center' style="padding-top: 40px; padding-bottom: 40px">
+                <img src='https://mapzen.com/common/styleguide/images/divider/compass-lg-blue.png'>
+            </div>
 
-                </div>
+            <h2 class="headroom">Details</h2><br/>
 
-                <br/>
-                <br/>
+            <div id="table-and-drill-down" class="col-xs-12 text-left" style="padding-bottom: 100px">
 
-                <div class="table-wrapper">
+                <input class="search opensans" id="countrySelect" size="60" onkeyup="resetCountrySelection()" placeholder="Type country name"/>
+                <button class="btn-mapzen" id="resetSelection" onclick="resetCountrySelection(true)">Reset Country Selection</button>
+
+                <br/><br/><br/>
+
+                <div id="details" class="table-wrapper">
                     <table class="table">
-
+                        <col width="35%">
                         <thead>
-                            <th class="sort btn-mapzen" style="text-align: center" data-sort="iso3"> ISO3 </th>
-                            <th class="sort btn-mapzen" style="text-align: center" data-sort="name"> Country </th>
-                            <th class="sort btn-mapzen" style="text-align: center" data-sort="people_per_address"> People/Addr </th>
-                            <th class="sort btn-mapzen" style="text-align: center" data-sort="population"> Population </th>
-                            <th class="sort btn-mapzen" style="text-align: center" data-sort="total_records"> Records </th>
-                            <th class="sort btn-mapzen" style="text-align: center" data-sort="address"> Addresses </th>
-                            <th class="sort btn-mapzen" style="text-align: center" data-sort="venue"> Venues </th>
-                            <th class="sort btn-mapzen" style="text-align: center" data-sort="openstreetmap"> OSM </th>
-                            <th class="sort btn-mapzen" style="text-align: center" data-sort="openaddresses"> OA </th>
-                            <th class="sort btn-mapzen" style="text-align: center" data-sort="geonames"> GN </th>
-                            <th class="sort btn-mapzen" style="text-align: center" data-sort="whosonfirst"> WOF </th>
+                            <th class="sort mz-yellow" style="text-align: center" data-sort="name"> Country </th>
+                            <th class="sort mz-yellow" style="text-align: center" data-sort="population"> Population </th>
+                            <th class="sort mz-yellow" style="text-align: center" data-sort="total_records"> Total Records </th>
+                            <th class="sort mz-yellow" style="text-align: center" data-sort="people_per_address"> People per Addr </th>
+                            <th class="sort mz-yellow" style="text-align: center" data-sort="people_per_venue"> People per Venue </th>
                         </thead>
-
-                        <!-- IMPORTANT, class="list" have to be at tbody -->
                         <tbody class="list">
                         <tr>
-                            <td width="70px" style="text-align: left" class="iso3">BAR</td>
-                            <td width="260px" class="name">Foo</td>
-                            <td width="80px" style="text-align: center" class="people_per_address">123</td>
-                            <td width="80px" style="text-align: center" class="population">123</td>
-                            <td width="80px" style="text-align: center" class="total_records">321</td>
-                            <td width="80px" style="text-align: center" class="address">321</td>
-                            <td width="80px" style="text-align: center" class="venue">321</td>
-                            <td width="80px" style="text-align: center" class="openstreetmap">321</td>
-                            <td width="80px" style="text-align: center" class="openaddresses">321</td>
-                            <td width="80px" style="text-align: center" class="geonames">321</td>
-                            <td width="80px" style="text-align: center" class="whosonfirst">321</td>
+                            <td class="name">Foo</td>
+                            <td style="text-align: center" class="population">123</td>
+                            <td style="text-align: center" class="total_records">123</td>
+                            <td style="text-align: center" class="people_per_address">123</td>
+                            <td style="text-align: center" class="people_per_venue">123</td>
                         </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="countryDrillDown">
+                    <table class="table headroom">
+                        <col width="70%"><col width="20%"><col width="10%">
+                        <tbody>
+
+                        <!-- LAYERS -->
+                            <tr><th class="mz-yellow" colspan="3">Layers</th></tr>
+                            <tr>
+                                <td rowspan="3"><canvas id="countryLayers" height="80"></canvas></td>
+                                <td><b>addresses</b></td>
+                                <td id="country-addresses"></td>
+                            </tr>
+                            <tr>
+                                <td><b>venues</b></td>
+                                <td id="country-venues"></td>
+                            </tr>
+                            <tr>
+                                <td><b>other (coarse)</b></td>
+                                <td id="country-admin"></td>
+                            </tr>
+                        <!-- END OF LAYERS -->
+
+                        <!-- PLACES -->
+                            <tr><th class="mz-yellow" colspan="3">Places (coarse)</th></tr>
+                            <tr>
+                                <td rowspan="10" colspan="1"><canvas id="countryAdmin" height="150"></canvas></td>
+                            </tr>
+                            <tr>
+                                <td><b>countries</b></td>
+                                <td id="country-country"></td>
+                            </tr>
+                            <tr>
+                                <td><b>macroregions</b></td>
+                                <td id="country-macroregion"></td>
+                            </tr>
+                            <tr>
+                                <td><b>regions</b></td>
+                                <td id="country-region"></td>
+                            </tr>
+                            <tr>
+                                <td><b>macrocounties</b></td>
+                                <td id="country-macrocounty"></td>
+                            </tr>
+                            <tr>
+                                <td><b>counties</b></td>
+                                <td id="country-county"></td>
+                            </tr>
+                            <tr>
+                                <td><b>localadmins</b></td>
+                                <td id="country-localadmin"></td>
+                            </tr>
+                            <tr>
+                                <td><b>localities</b></td>
+                                <td id="country-locality"></td>
+                            </tr>
+                            <tr>
+                                <td><b>boroughs</b></td>
+                                <td id="country-borough"></td>
+                            </tr>
+                            <tr>
+                                <td><b>neighbourhoods</b></td>
+                                <td id="country-neighbourhood"></td>
+                            </tr>
+                        <!-- END OF PLACES -->
+
+                        <!-- SOURCES -->
+                            <tr><th class="mz-yellow" colspan="3">Sources</th></tr>
+                            <tr>
+                                <td rowspan="4"><canvas id="countrySources" height="80">Select a country</canvas></td>
+                                <td><b>openstreetmap</b></td>
+                                <td  id="country-osm-records"></td>
+                            </tr>
+                            <tr>
+                                <td><b>openaddresses</b></td>
+                                <td  id="country-oa-records"></td>
+                            </tr>
+                            <tr>
+                                <td><b>geonames</b></td>
+                                <td  id="country-gn-records"></td>
+                            </tr>
+                            <tr>
+                                <td><b>who's-on-first</b></td>
+                                <td  id="country-wof-records"></td>
+                            </tr>
+                        <!-- END OF SOURCES -->
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+    </div>
+
     <script src="https://mapzen.com/common/styleguide/scripts/mapzen-styleguide.min.js"></script>
     <script>
-        window.data = {labels: [], data: []};
-        window.sortable = [];
-        Object.keys(window.Countries()).forEach(function (iso3) {
-            var country = window.Countries()[iso3];
-
-            country.people_per_address = (country.population > 0 && country.records.address > 0) ? (country.population / country.records.address) : 9999999;
-            country.address_per_person = (country.population > 0 && country.records.address > 0) ? (country.records.address / country.population) : 0;
-
-            if (country.address_per_person > 0.008) {
-                sortable.push({label: country.name, value: country.address_per_person, country: country});
-            }
-        });
-
-        sortable.sort(function (a, b) {
-            return (a.value < b.value) ? 1 : -1;
-        });
-    </script>
-    <script>
-        window.data.labels = sortable.map(function (item) {
-            return item.label;
-        });
-        window.data.data = sortable.map(function (item) {
-            return item.value;
-        });
-
-
-        var ctx = document.getElementById("myChart").getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: data.labels,
-                datasets: [{
-                    label: 'addresses/person',
-                    data: data.data,
-                    backgroundColor: "#d4645c"
-                }]
-            },
-            options: {
-                scales: {
-                    xAxes: [{
-                        ticks: {
-                            autoSkip: false
-                        }
-                    }]
-                }
-            }
-        });
-    </script>
-    <script>
-        var layers = ['address', 'venue', 'neighbourhood', 'localadmin', 'locality', 'county', 'region', 'macroregion'];
-        var layers_colors = {
-            'address':  "#d4645c",
-            'venue': '#6ea0a4',
-            'neighbourhood': '#e6ead2',
-            'localadmin': '#d3c756',
-            'locality': '#385d5c',
-            'county': '#993434',
-            'region': '#666666',
-            'macroregion': '#563630'
-        };
-
-        layers.forEach(function (layer) {
-            window.data[layer] = window.sortable.map(function (item) {
-                return item.country.records[layer] / item.country.records.total * 100;
-            });
-        });
-
-        var datasets = [];
-        layers.forEach(function (layer) {
-           datasets.push({
-               label: layer,
-               data: window.data[layer],
-               backgroundColor: layers_colors[layer]
-           })
-        });
-
-        var ctx2 = document.getElementById("myChart1").getContext('2d');
-        var myChart1 = new Chart(ctx2, {
-            type: 'bar',
-            options: {
-                scales: {
-                    xAxes: [{
-                        stacked: true,
-                        ticks: {
-                            autoSkip: false
-                        }
-                    }],
-                    yAxes: [{
-                        stacked: true
-                    }]
-                }
-            },
-            data: {
-                labels: window.data.labels,
-                datasets: datasets
-            }
-        });
-    </script>
-    <script>
-        var sources = ['openaddresses', 'openstreetmap', 'whosonfirst', 'geonames'];
-        var sources_colors = {
-            'openaddresses':  "#d4645c",
-            'openstreetmap': '#6ea0a4',
-            'whosonfirst': '#e6ead2',
-            'geonames': '#d3c756'
-        };
-
-        sources.forEach(function (source) {
-            data[source] = window.sortable.map(function (item) {
-                return item.country.records[source] / item.country.records.total * 100;
-            });
-        });
-        var datasets = [];
-        sources.forEach(function (source) {
-            datasets.push({
-                label: source,
-                data: window.data[source],
-                backgroundColor: sources_colors[source]
-            })
-        });
-
-        var ctx2 = document.getElementById("myChart2").getContext('2d');
-        var myChart1 = new Chart(ctx2, {
-            type: 'bar',
-            options: {
-                scales: {
-                    xAxes: [{
-                        stacked: true,
-                        ticks: {
-                            autoSkip: false
-                        }
-                    }],
-                    yAxes: [{
-                        stacked: true
-                    }]
-                }
-            },
-            data: {
-                labels: window.data.labels,
-                datasets: datasets
-            }
-        });
-    </script>
-    <script>
-        var options = {
-            valueNames: [ 'name', 'iso3', 'people_per_address',
-                'population', 'total_records', 'address', 'venue', 'openstreetmap',
-                'openaddresses', 'geonames', 'whosonfirst' ]
-        };
-
-        var userList = new List('details', options);
-
-        userList.clear();
-        Object.keys(window.Countries()).forEach(function (iso3) {
-            var country = window.Countries()[iso3];
-            country.people_per_address = (country.population > 0 && country.records.address > 0) ? (country.population / country.records.address) : 'none';
-//            country.address_per_person = (country.population > 0 && country.records.address > 0) ? (country.records.address / country.population) : 0;
-
-            if (country.people_per_address !== 'none' && country.people_per_address < 1) {
-                country.people_per_address = country.people_per_address.toFixed(2);
-            } else if (country.people_per_address !== 'none' && country.people_per_address >= 1) {
-                country.people_per_address = country.people_per_address.toFixed(0);
-            }
-
-            userList.add({
-                name: country.name || 'unknown',
-                iso3: iso3,
-                people_per_address: country.people_per_address,
-                population: country.population || 'unknown',
-                total_records: country.records.total || 0,
-                address: country.records.address || 0,
-                venue: country.records.venue || 0,
-                openstreetmap: country.records.openstreetmap || 0,
-                openaddresses: country.records.openaddresses || 0,
-                geonames: country.records.geonames || 0,
-                whosonfirst: country.records.whosonfirst || 0,
-            });
-        });
-
-        userList.sort('people_per_address');
-
+        prepCountriesDataForCharts();
+        populateTopCoverageChart();
+        populateTopBySourceChart();
+        populateTopByLayerChart();
+        populateDetailsTable();
+        setupCountryDrillDown();
     </script>
 </body>
 </html>
