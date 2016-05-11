@@ -45,6 +45,7 @@ function populateCountryDrillDown(iso3, fullName) {
   populateCountryLayersChart(iso3);
   populateCountryAdminChart(iso3);
   populateCountryDetails(iso3);
+
 }
 
 function populateCountrySourcesChart(iso3) {
@@ -60,10 +61,18 @@ function populateCountrySourcesChart(iso3) {
     (country.records.whosonfirst || 0) / country.records.total
   ];
 
-  console.log(country.records, data);
+  var oldCanvas = document.getElementById('countrySources');
+  var tableRow = document.getElementById('countrySourcesData');
 
-  var ctx = document.getElementById("countrySources").getContext('2d');
-  new Chart(ctx, {
+  tableRow.removeChild(oldCanvas);
+
+  var canvas = document.createElement('canvas');
+  canvas.id = 'countrySources';
+  tableRow.appendChild(canvas);
+
+  var ctx = canvas.getContext('2d');
+
+  window.countrySourcesChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
       labels: labels,
@@ -124,8 +133,18 @@ function populateCountryLayersChart(iso3) {
 
   data.push( coarseTotal / country.records.total);
 
-  var ctx = document.getElementById("countryLayers").getContext('2d');
-  new Chart(ctx, {
+  var oldCanvas = document.getElementById('countryLayers');
+  var tableRow = document.getElementById('countryLayersData');
+
+  tableRow.removeChild(oldCanvas);
+
+  var canvas = document.createElement('canvas');
+  canvas.id = 'countryLayers';
+  tableRow.appendChild(canvas);
+
+  var ctx = canvas.getContext('2d');
+
+  window.countryLayersChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
       labels: labels,
@@ -170,18 +189,23 @@ function populateCountryAdminChart(iso3) {
     totalCoarse += (country.records[layer] || 0);
   });
 
-  var ctx = document.getElementById("countryAdmin").getContext('2d');
-
-  if (totalCoarse <= 0) {
-    return;
-  }
-
   var data = [];
   labels.forEach(function (layer) {
     data.push(country.records[layer] || 0);
   });
 
-  new Chart(ctx, {
+  var oldCanvas = document.getElementById('countryAdmin');
+  var tableRow = document.getElementById('countryAdminData');
+
+  tableRow.removeChild(oldCanvas);
+
+  var canvas = document.createElement('canvas');
+  canvas.id = 'countryAdmin';
+  tableRow.appendChild(canvas);
+
+  var ctx = canvas.getContext('2d');
+
+  window.countryAdminChart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: labels,

@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.0.0/Chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.2/Chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.2.0/list.min.js"></script>
     <script src="javascript/awesomplete.min.js" async></script>
     <script src="data/countries_data.js"></script>
@@ -75,7 +75,11 @@
                         <!-- LAYERS -->
                             <tr><th class="mz-yellow" colspan="3">Layers</th></tr>
                             <tr>
-                                <td rowspan="3"><canvas id="countryLayers" height="80"></canvas></td>
+                                <td id="countryLayersData" rowspan="4">
+                                    <canvas id="countryLayers"></canvas>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td><b>addresses</b></td>
                                 <td id="country-addresses"></td>
                             </tr>
@@ -87,12 +91,19 @@
                                 <td><b>other (coarse)</b></td>
                                 <td id="country-admin"></td>
                             </tr>
+                        </tbody>
+                    </table>
                         <!-- END OF LAYERS -->
 
                         <!-- PLACES -->
-                            <tr><th class="mz-yellow" colspan="3">Places (coarse)</th></tr>
+                    <table class="table headroom">
+                        <col width="70%"><col width="20%"><col width="10%">
+                        <tbody>
+                        <tr><th class="mz-yellow" colspan="3">Places (coarse)</th></tr>
                             <tr>
-                                <td rowspan="10" colspan="1"><canvas id="countryAdmin" height="150"></canvas></td>
+                                <td id="countryAdminData" rowspan="10" colspan="1">
+                                    <canvas id="countryAdmin" height="150"></canvas>
+                                </td>
                             </tr>
                             <tr>
                                 <td><b>countries</b></td>
@@ -130,12 +141,19 @@
                                 <td><b>neighbourhoods</b></td>
                                 <td id="country-neighbourhood"></td>
                             </tr>
+                        </tbody>
+                    </table>
                         <!-- END OF PLACES -->
 
                         <!-- SOURCES -->
+                        <table class="table headroom">
+                            <col width="70%"><col width="20%"><col width="10%">
+                            <tbody>
                             <tr><th class="mz-yellow" colspan="3">Sources</th></tr>
                             <tr>
-                                <td rowspan="4"><canvas id="countrySources" height="80">Select a country</canvas></td>
+                                <td id="countrySourcesData" rowspan="4">
+                                    <canvas id="countrySources" height="80"></canvas>
+                                </td>
                                 <td><b>openstreetmap</b></td>
                                 <td  id="country-osm-records"></td>
                             </tr>
