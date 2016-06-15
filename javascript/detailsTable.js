@@ -36,4 +36,27 @@ function populateDetailsTable() {
   userList.sort('name');
 
   window.detailsTable = userList;
+
+  // populate dropdown country selector
+  var countrySelect = document.getElementById('countrySelect');
+  var countryData = getAllCountryData();
+
+  var countryNames = [];
+  Object.keys(countryData).forEach(function (iso3) {
+    var country = countryData[iso3];
+    countryNames.push(country.name + ' (' + iso3 + ')');
+  });
+
+  countrySelect.addEventListener('awesomplete-selectcomplete', function (e) {
+    console.log('selection changed to ', e.text.label);
+
+    // the end of the string contains the ISO3 code of the country
+    var iso3 = e.text.label.substr(-4,3);
+
+    var fullName = getAllCountryData()[iso3].name + ' (' + iso3 + ')';
+    document.getElementById("countrySelect").value = fullName;
+    window.detailsTable.search(fullName);
+  });
+
+  new Awesomplete(countrySelect, {list: countryNames});
 }

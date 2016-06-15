@@ -20,15 +20,34 @@ function setupCountryDrillDown() {
   new Awesomplete(countrySelect, {list: countryNames});
 
   //resetCountrySelection();
-  populateCountryDrillDown('USA', 'United States (USA)');
+  var query = location.search.substr(1);
+  var params = {};
+  query.split("&").forEach(function(part) {
+    var item = part.split("=");
+    params[item[0]] = decodeURIComponent(item[1]);
+  });
+
+  if (params.hasOwnProperty('country') && params.country.length === 3) {
+    populateCountryDrillDown(params.country);
+  }
+  else {
+    populateCountryDrillDown('USA', 'United States (USA)');
+  }
 }
 
 function resetCountrySelection(force) {
+  console.log('foo');
   var elem = document.getElementById("countrySelect");
   if (force || elem && elem.value === '' && window.detailsTable) {
     window.detailsTable.search();
-    document.getElementById('countryDrillDown').style.visibility = 'hidden';
+
+    var drillDownDiv = document.getElementById('countryDrillDown');
+    if (drillDownDiv) {
+      drillDownDiv.style.visibility = 'hidden';
+    }
   }
+
+  console.log('bar');
 
   if (force) {
     elem.value = '';
@@ -36,6 +55,7 @@ function resetCountrySelection(force) {
 }
 
 function populateCountryDrillDown(iso3, fullName) {
+  fullName = fullName || (getAllCountryData()[iso3].name + ' (' + iso3 + ')');
   document.getElementById("countrySelect").value = fullName;
   window.detailsTable.search(fullName);
 

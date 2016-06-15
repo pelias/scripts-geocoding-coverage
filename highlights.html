@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Mapzen Search Geocoder Coverage by Country</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://mapzen.com/common/styleguide/styles/styleguide.css">
+    <link rel="stylesheet" href="css/awesomplete.css" />
+</head>
+
+<div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.2/Chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.2.0/list.min.js"></script>
+    <script src="javascript/awesomplete.min.js" async></script>
+    <script src="data/countries_data.js"></script>
+    <script src="javascript/topCountriesCharts.js"></script>
+    <script src="javascript/countryDrillDown.js"></script>
+    <script src="javascript/detailsTable.js"></script>
+
+    <div class="container">
+        <div class="col-xs-3">
+            <div class="toc" role="directory">
+                <ul class="nav toc-nav">
+                    <li class="toc-top-level">
+                        <a href="index.html">Overview</a>
+                    </li>
+                    <li class="toc-top-level">
+                        <a href="country.html">Country Details</a>
+                    </li>
+                    <li class="toc-top-level">
+                        <a class="toc-subnav-toggle" href="#">Highlights</a>
+                        <ul class="toc-subnav">
+                            <li><a href="#">Top Address Coverage</a></li>
+                            <li><a href="#sources">Breakdown by Sources</a></li>
+                            <li><a href="#layers">Breakdown by Layers</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-xs-9">
+            <div>
+                <h2>Top Address Coverage</h2> <br/>
+                <canvas id="top-countries"></canvas>
+
+                <div class='text-center' style="padding-top: 40px; padding-bottom: 40px">
+                    <img src='https://mapzen.com/common/styleguide/images/divider/compass-lg-blue.png'>
+                </div>
+
+                <!--<div id="venues"></div>-->
+                <!--<h2>Top Venue Coverage</h2> <br/>-->
+                <!--<canvas id="top-countries-venues"></canvas>-->
+
+                <!--<div class='text-center' style="padding-top: 40px; padding-bottom: 40px">-->
+                    <!--<img src='https://mapzen.com/common/styleguide/images/divider/compass-lg-blue.png'>-->
+                <!--</div>-->
+
+                <div id="sources"></div>
+                <h2>Breakdown by Sources</h2> </div> <br/>
+                <canvas id="top-countries-by-source"></canvas>
+
+                <div class='text-center' style="padding-top: 40px; padding-bottom: 40px">
+                    <img src='https://mapzen.com/common/styleguide/images/divider/compass-lg-blue.png'>
+                </div>
+
+                <div id="layers"></div>
+                <h2>Breakdown by Layers</h2> <br/>
+                <canvas id="top-countries-by-layer"></canvas>
+
+                <div class='text-center' style="padding-top: 40px; padding-bottom: 40px">
+                    <img src='https://mapzen.com/common/styleguide/images/divider/compass-lg-blue.png'>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://mapzen.com/common/styleguide/scripts/mapzen-styleguide.min.js"></script>
+    <script>
+        prepCountriesDataForCharts();
+        populateTopCoverageChart();
+        populateTopBySourceChart();
+        populateTopByLayerChart();
+    </script>
+</body>
+</html>

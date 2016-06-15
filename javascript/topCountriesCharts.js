@@ -10,7 +10,7 @@ function prepCountriesDataForCharts() {
     country.people_per_venue = (country.population > 0 && country.records.venue > 0) ? (country.population / country.records.venue) : 9999999;
     country.venue_per_person = (country.population > 0 && country.records.venue > 0) ? (country.records.venue / country.population) : 0;
 
-    if (country.address_per_person > 0.008) {
+    if (country.address_per_person > 0.02) {
       sortable.push({label: country.name, value: country.address_per_person, country: country});
     }
   });

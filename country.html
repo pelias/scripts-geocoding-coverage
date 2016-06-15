@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Mapzen Search Geocoder Coverage by Country</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://mapzen.com/common/styleguide/styles/styleguide.css">
+    <link rel="stylesheet" href="css/awesomplete.css" />
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.2/Chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.2.0/list.min.js"></script>
+    <script src="javascript/awesomplete.min.js" async></script>
+    <script src="data/countries_data.js"></script>
+    <script src="javascript/topCountriesCharts.js"></script>
+    <script src="javascript/countryDrillDown.js"></script>
+    <script src="javascript/detailsTable.js"></script>
+
+    <div class="container">
+
+        <div class="col-xs-3">
+            <div class="toc" role="directory">
+                <ul class="nav toc-nav">
+                    <li class="toc-top-level">
+                        <a href="index.html">Overview</a>
+                    </li>
+                    <li class="toc-top-level">
+                        <a href="country.html">Country Details</a>
+                    </li>
+                    <li class="toc-top-level">
+                        <a class="toc-subnav-toggle" href="#">Highlights</a>
+                        <ul class="toc-subnav">
+                            <li><a href="./highlights.html#">Top Address Coverage</a></li>
+                            <li><a href="./highlights.html#sources">Breakdown by Sources</a></li>
+                            <li><a href="./highlights.html#layers">Breakdown by Layers</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-xs-9">
+            <h2 class="headroom">Country Details</h2><br/>
+
+            <div id="table-and-drill-down" class="text-left" style="padding-bottom: 100px">
+
+                <input class="search opensans" id="countrySelect" size="60" placeholder="Type country name"/>
+                <!--<button class="btn-mapzen" id="resetSelection" onclick="resetCountrySelection(true)">Reset Country Selection</button>-->
+
+                <br/><br/><br/>
+
+                <div id="details" class="table-wrapper">
+                    <table class="table">
+                        <col width="35%">
+                        <thead>
+                            <th class="sort mz-yellow" style="text-align: center" data-sort="name"> Country </th>
+                            <th class="sort mz-yellow" style="text-align: center" data-sort="population"> Population </th>
+                            <th class="sort mz-yellow" style="text-align: center" data-sort="total_records"> Total Records </th>
+                            <th class="sort mz-yellow" style="text-align: center" data-sort="people_per_address"> People per Addr </th>
+                            <th class="sort mz-yellow" style="text-align: center" data-sort="people_per_venue"> People per Venue </th>
+                        </thead>
+                        <tbody class="list">
+                        <tr>
+                            <td class="name">Foo</td>
+                            <td style="text-align: center" class="population">123</td>
+                            <td style="text-align: center" class="total_records">123</td>
+                            <td style="text-align: center" class="people_per_address">123</td>
+                            <td style="text-align: center" class="people_per_venue">123</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="countryDrillDown">
+                    <table class="table headroom">
+                        <col width="70%"><col width="20%"><col width="10%">
+                        <tbody>
+
+                        <!-- LAYERS -->
+                            <tr><th class="mz-yellow" colspan="3">Layers</th></tr>
+                            <tr>
+                                <td id="countryLayersData" rowspan="4">
+                                    <canvas id="countryLayers"></canvas>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>addresses</b></td>
+                                <td id="country-addresses"></td>
+                            </tr>
+                            <tr>
+                                <td><b>venues</b></td>
+                                <td id="country-venues"></td>
+                            </tr>
+                            <tr>
+                                <td><b>other (coarse)</b></td>
+                                <td id="country-admin"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                        <!-- END OF LAYERS -->
+
+                        <!-- PLACES -->
+                    <table class="table headroom">
+                        <col width="70%"><col width="20%"><col width="10%">
+                        <tbody>
+                        <tr><th class="mz-yellow" colspan="3">Places (coarse)</th></tr>
+                            <tr>
+                                <td id="countryAdminData" rowspan="10" colspan="1">
+                                    <canvas id="countryAdmin" height="150"></canvas>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>countries</b></td>
+                                <td id="country-country"></td>
+                            </tr>
+                            <tr>
+                                <td><b>macroregions</b></td>
+                                <td id="country-macroregion"></td>
+                            </tr>
+                            <tr>
+                                <td><b>regions</b></td>
+                                <td id="country-region"></td>
+                            </tr>
+                            <tr>
+                                <td><b>macrocounties</b></td>
+                                <td id="country-macrocounty"></td>
+                            </tr>
+                            <tr>
+                                <td><b>counties</b></td>
+                                <td id="country-county"></td>
+                            </tr>
+                            <tr>
+                                <td><b>localadmins</b></td>
+                                <td id="country-localadmin"></td>
+                            </tr>
+                            <tr>
+                                <td><b>localities</b></td>
+                                <td id="country-locality"></td>
+                            </tr>
+                            <tr>
+                                <td><b>boroughs</b></td>
+                                <td id="country-borough"></td>
+                            </tr>
+                            <tr>
+                                <td><b>neighbourhoods</b></td>
+                                <td id="country-neighbourhood"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                        <!-- END OF PLACES -->
+
+                        <!-- SOURCES -->
+                        <table class="table headroom">
+                            <col width="70%"><col width="20%"><col width="10%">
+                            <tbody>
+                            <tr><th class="mz-yellow" colspan="3">Sources</th></tr>
+                            <tr>
+                                <td id="countrySourcesData" rowspan="4">
+                                    <canvas id="countrySources" height="80"></canvas>
+                                </td>
+                                <td><b>openstreetmap</b></td>
+                                <td  id="country-osm-records"></td>
+                            </tr>
+                            <tr>
+                                <td><b>openaddresses</b></td>
+                                <td  id="country-oa-records"></td>
+                            </tr>
+                            <tr>
+                                <td><b>geonames</b></td>
+                                <td  id="country-gn-records"></td>
+                            </tr>
+                            <tr>
+                                <td><b>who's-on-first</b></td>
+                                <td  id="country-wof-records"></td>
+                            </tr>
+                        <!-- END OF SOURCES -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://mapzen.com/common/styleguide/scripts/mapzen-styleguide.min.js"></script>
+    <script>
+        populateDetailsTable();
+        setupCountryDrillDown();
+
+        document.getElementById("countrySelect").select();
+    </script>
+</body>
+</html>
