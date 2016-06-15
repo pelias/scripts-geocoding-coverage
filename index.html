@@ -80,6 +80,7 @@
     <script src="javascript/awesomplete.min.js" async></script>
 
     <script>
+        // callback function for reset country selection button
         function resetCountrySelection(force) {
             var elem = document.getElementById("countrySelect");
             if (force || elem && elem.value === '' && window.detailsTable) {
@@ -91,9 +92,9 @@
         }
 
         populateDetailsTable();
+
+        // put the cursor focus into the country selector
         document.getElementById("countrySelect").select();
-
-
     </script>
 </body>
 </html>
