@@ -1,7 +1,7 @@
 function populateDetailsTable() {
   var options = {
-    valueNames: [ 'name', 'people_per_address', 'people_per_venue',
-      'addresses_per_person', 'venues_per_person', 'population', 'total_records' ]
+    valueNames: ['name', 'people_per_address', 'people_per_venue',
+      'addresses_per_person', 'venues_per_person', 'population', 'total_records']
   };
 
   var userList = new List('details', options);
@@ -36,7 +36,9 @@ function populateDetailsTable() {
   userList.sort('name');
 
   window.detailsTable = userList;
+}
 
+function setupCountrySelect() {
   // populate dropdown country selector
   var countrySelect = document.getElementById('countrySelect');
   var countryData = getAllCountryData();
