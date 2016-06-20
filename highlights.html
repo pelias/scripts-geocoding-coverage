@@ -7,10 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://mapzen.com/common/styleguide/styles/styleguide.css">
-    <link rel="stylesheet" href="css/awesomplete.css" />
+    <link rel="stylesheet" href="css/awesomplete.css">
 </head>
 
-<div>
+<body data-spy="scroll" data-target=".toc" data-offset="10" class="hide-fixed-main-nav" cz-shortcut-listen="true">
+
+  <div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.2/Chart.js"></script>
     <script src="data/countries_data.js"></script>
     <script src="javascript/topCountriesCharts.js"></script>
@@ -19,18 +21,14 @@
 
     <div class="container">
         <div class="col-xs-3">
-            <div class="toc" role="directory">
+            <div class="toc hidden-print affix" role="directory">
                 <ul class="nav toc-nav">
-                    <li class="toc-top-level">
-                        <a href="index.html">Overview</a>
-                    </li>
-                    <li class="toc-top-level">
-                        <a href="country.html">Country Details</a>
-                    </li>
-                    <li class="toc-top-level">
-                        <a class="toc-subnav-toggle" href="#">Highlights</a>
-                        <ul class="toc-subnav">
-                            <li><a href="#">Top Address Coverage</a></li>
+                    <li class="toc-top-level"><a class="toc-subnav-toggle" href="./index.html#">Overview</a></li>
+                    <li class="toc-top-level"><a href="country.html">Country Details</a></li>
+                    <li class="toc-top-level toc-current">
+                        <a class="toc-subnav-toggle" href="#addresses">Highlights</a>
+                        <ul class="toc-subnav toc-expand">
+                            <li class="main active"><a href="#addresses">Top Address Coverage</a></li>
                             <li><a href="#sources">Breakdown by Sources</a></li>
                             <li><a href="#layers">Breakdown by Layers</a></li>
                         </ul>
@@ -41,6 +39,7 @@
 
         <div class="col-xs-9">
             <div>
+                <div id="addresses"></div>
                 <h2>Top Address Coverage</h2> <br/>
                 <canvas id="top-countries"></canvas>
 

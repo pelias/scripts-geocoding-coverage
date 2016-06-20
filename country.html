@@ -24,20 +24,9 @@
         <div class="col-xs-3">
             <div class="toc" role="directory">
                 <ul class="nav toc-nav">
-                    <li class="toc-top-level">
-                        <a href="index.html">Overview</a>
-                    </li>
-                    <li class="toc-top-level">
-                        <a href="country.html">Country Details</a>
-                    </li>
-                    <li class="toc-top-level">
-                        <a class="toc-subnav-toggle" href="#">Highlights</a>
-                        <ul class="toc-subnav">
-                            <li><a href="./highlights.html#">Top Address Coverage</a></li>
-                            <li><a href="./highlights.html#sources">Breakdown by Sources</a></li>
-                            <li><a href="./highlights.html#layers">Breakdown by Layers</a></li>
-                        </ul>
-                    </li>
+                    <li class="toc-top-level"><a class="toc-subnav-toggle" href="./index.html#">Overview</a></li>
+                    <li class="toc-top-level toc-current"><a href="country.html">Country Details</a></li>
+                    <li class="toc-top-level"><a class="toc-subnav-toggle" href="./highlights.html#">Highlights</a></li>
                 </ul>
             </div>
         </div>
@@ -55,11 +44,11 @@
                     <table class="table">
                         <col width="35%">
                         <thead>
-                            <th class="sort mz-yellow" style="text-align: center" data-sort="name"> Country </th>
-                            <th class="sort mz-yellow" style="text-align: center" data-sort="population"> Population </th>
-                            <th class="sort mz-yellow" style="text-align: center" data-sort="total_records"> Total Records </th>
-                            <th class="sort mz-yellow" style="text-align: center" data-sort="people_per_address"> People per Addr </th>
-                            <th class="sort mz-yellow" style="text-align: center" data-sort="people_per_venue"> People per Venue </th>
+                            <th class="sort " style="text-align: center" data-sort="name"> Country </th>
+                            <th class="sort " style="text-align: center" data-sort="population"> Population </th>
+                            <th class="sort " style="text-align: center" data-sort="total_records"> Total Records </th>
+                            <th class="sort " style="text-align: center" data-sort="people_per_address"> People per Addr </th>
+                            <th class="sort " style="text-align: center" data-sort="people_per_venue"> People per Venue </th>
                         </thead>
                         <tbody class="list">
                         <tr>
@@ -79,7 +68,7 @@
                         <tbody>
 
                         <!-- LAYERS -->
-                            <tr><th class="mz-yellow" colspan="3">Layers</th></tr>
+                            <tr><th colspan="3">Layers</th></tr>
                             <tr>
                                 <td id="countryLayersData" rowspan="4">
                                     <canvas id="countryLayers"></canvas>
@@ -105,7 +94,7 @@
                     <table class="table headroom">
                         <col width="70%"><col width="20%"><col width="10%">
                         <tbody>
-                        <tr><th class="mz-yellow" colspan="3">Places (coarse)</th></tr>
+                        <tr><th colspan="3">Places (coarse)</th></tr>
                             <tr>
                                 <td id="countryAdminData" rowspan="10" colspan="1">
                                     <canvas id="countryAdmin" height="150"></canvas>
@@ -155,7 +144,7 @@
                         <table class="table headroom">
                             <col width="70%"><col width="20%"><col width="10%">
                             <tbody>
-                            <tr><th class="mz-yellow" colspan="3">Sources</th></tr>
+                            <tr><th colspan="3">Sources</th></tr>
                             <tr>
                                 <td id="countrySourcesData" rowspan="4">
                                     <canvas id="countrySources" height="80"></canvas>
