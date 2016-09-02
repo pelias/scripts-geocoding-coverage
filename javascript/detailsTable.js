@@ -7,8 +7,8 @@ function populateDetailsTable() {
   var userList = new List('details', options);
 
   userList.clear();
-  Object.keys(getAllCountryData()).forEach(function (iso3) {
-    var country = getAllCountryData()[iso3];
+  Object.keys(countryData).forEach(function (iso3) {
+    var country = countryData[iso3];
 
     if (country.population > 0) {
       country.people_per_address = (country.records.address > 0) ? (country.population / country.records.address).toFixed(2) : 'none';
@@ -41,7 +41,6 @@ function populateDetailsTable() {
 function setupCountrySelect() {
   // populate dropdown country selector
   var countrySelect = document.getElementById('countrySelect');
-  var countryData = getAllCountryData();
 
   var countryNames = [];
   Object.keys(countryData).forEach(function (iso3) {
@@ -55,7 +54,7 @@ function setupCountrySelect() {
     // the end of the string contains the ISO3 code of the country
     var iso3 = e.text.label.substr(-4,3);
 
-    var fullName = getAllCountryData()[iso3].name + ' (' + iso3 + ')';
+    var fullName = countryData[iso3].name + ' (' + iso3 + ')';
     document.getElementById("countrySelect").value = fullName;
     window.detailsTable.search(fullName);
   });

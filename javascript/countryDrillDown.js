@@ -1,7 +1,6 @@
 function setupCountryDrillDown() {
   // populate dropdown country selector
   var countrySelect = document.getElementById('countrySelect');
-  var countryData = getAllCountryData();
 
   var countryNames = [];
   Object.keys(countryData).forEach(function (iso3) {
@@ -55,7 +54,7 @@ function resetCountrySelection(force) {
 }
 
 function populateCountryDrillDown(iso3, fullName) {
-  fullName = fullName || (getAllCountryData()[iso3].name + ' (' + iso3 + ')');
+  fullName = fullName || (countryData[iso3].name + ' (' + iso3 + ')');
   document.getElementById("countrySelect").value = fullName;
   window.detailsTable.search(fullName);
 
@@ -69,7 +68,7 @@ function populateCountryDrillDown(iso3, fullName) {
 }
 
 function populateCountrySourcesChart(iso3) {
-  var country = getAllCountryData()[iso3];
+  var country = countryData[iso3];
 
   var labels = ['OpenStreetMap', 'OpenAddresses', 'Geonames', 'Who\'s On First'];
   var colors = ['#6ea0a4', '#d4645c', '#d3c756', '#635A4A'];
@@ -118,7 +117,7 @@ function populateCountrySourcesChart(iso3) {
 }
 
 function populateCountryLayersChart(iso3) {
-  var country = getAllCountryData()[iso3];
+  var country = countryData[iso3];
 
   var labels = [
     'address',
@@ -190,7 +189,7 @@ function populateCountryLayersChart(iso3) {
 }
 
 function populateCountryAdminChart(iso3) {
-  var country = getAllCountryData()[iso3];
+  var country = countryData[iso3];
 
   var labels = [
     'country',
@@ -246,7 +245,7 @@ function populateCountryAdminChart(iso3) {
 }
 
 function populateCountryDetails(iso3) {
-  var country = getAllCountryData()[iso3];
+  var country = countryData[iso3];
 
   document.getElementById('country-osm-records').innerText = country.records.openstreetmap || 0;
   document.getElementById('country-oa-records').innerText = country.records.openaddresses || 0;
