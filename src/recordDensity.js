@@ -6,30 +6,36 @@ module.exports = function getRecordDensity(client, data, callback) {
     requestTimeout: Infinity,
     index: 'pelias',
     body: {
-      query: {
-        match_all: {}
-      },
+      "size": 0,
       "aggs": {
+        //"records_without_parent" : {
+        //  "missing" : { "field" : "parent" }
+        //},
         "countries": {
           "terms": {
             "field": "parent.country_a",
+            "missing": "unknown",
             "size": 500
           },
           "aggs": {
             "sources": {
               "terms": {
                 "field": "source",
+                "missing": "unknown",
                 "size": 100
               }
             },
             "layers": {
               "terms": {
-                "field": "layer"
+                "field": "layer",
+                "missing": "unknown",
+                "size": 100
               }
             },
             "regions": {
               "terms": {
                 "field": "parent.region_id",
+                "missing": "unknown",
                 "size": 100000
               },
               "aggs": {
@@ -68,7 +74,7 @@ module.exports = function getRecordDensity(client, data, callback) {
       throw err;
     }
 
-    fs.writeFileSync('record-density-results.json', JSON.stringify(results.aggregations, null, 2));
+    fs.writeFileSync('record-density-results.json', JSON.stringify(results, null, 2));
     console.log('Total countries: ', results.aggregations.countries.buckets.length);
 
     callback(null, results.aggregations);

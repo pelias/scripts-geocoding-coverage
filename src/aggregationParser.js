@@ -1,5 +1,6 @@
 var country = require('countryjs');
 var fs = require('fs');
+var _ = require('lodash');
 
 module.exports = function (data, aggregations, callback) {
 
@@ -26,7 +27,9 @@ module.exports = function (data, aggregations, callback) {
     });
 
     bucket.regions.buckets.forEach(function (region) {
-      data[iso3].records.regions.push({name: region.region.hits.hits[0]['_source'].parent.region[0], docs: region.doc_count });
+      data[iso3].records.regions.push({
+        name: _.get(region.region.hits.hits[0]['_source'], 'parent.region[0]', 'unknown'),
+        docs: region.doc_count });
     });
 
     aggs[iso3] = [iso3, name, bucket.doc_count];
