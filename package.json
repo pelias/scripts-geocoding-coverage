@@ -1,0 +1,25 @@
+{
+  "name": "scripts-geocoding-coverage",
+  "version": "1.0.0",
+  "description": "Determine approximate coverage for each country",
+  "main": "index.js",
+  "repository": "",
+  "scripts": {
+    "start": "PELIAS_CONFIG=${PWD}/config.json node app.js",
+    "test": "echo \"Sorry, no tests here.... shame on me\" && exit 1"
+  },
+  "author": "Mapzen",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^2.0.0-rc.3",
+    "country-code": "0.0.3",
+    "countrydata": "^1.0.0",
+    "countryjs": "^1.5.2",
+    "csv-json": "^0.1.0",
+    "csvtojson": "^0.5.14",
+    "elasticsearch": "^12.0.1",
+    "parse-csv": "^0.2.0",
+    "pelias-config": "^1.0.3",
+    "url-download": "0.0.5"
+  }
+}
