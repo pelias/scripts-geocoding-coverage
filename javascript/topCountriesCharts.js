@@ -1,9 +1,9 @@
 function prepCountriesDataForCharts() {
   window.data = {labels: [], data: []};
   window.sortable = [];
-  var countries = getAllCountryData();
-  Object.keys(countries).forEach(function (iso3) {
-    var country = countries[iso3];
+
+  Object.keys(countryData).forEach(function (iso3) {
+    var country = countryData[iso3];
 
     country.people_per_address = (country.population > 0 && country.records.address > 0) ? (country.population / country.records.address) : 9999999;
     country.address_per_person = (country.population > 0 && country.records.address > 0) ? (country.records.address / country.population) : 0;

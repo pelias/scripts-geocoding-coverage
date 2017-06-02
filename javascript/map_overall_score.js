@@ -7,7 +7,6 @@ var colors = {
 }; // teals
 
 var fillOpacity = 0.8;
-var countries = getAllCountryData();
 
 document.map_overall_score = {};
 
@@ -53,7 +52,7 @@ function addInfoBox() {
 
 function addSearch() {
   // geocoder
-  L.control.geocoder('search-hQHkoy8').addTo(document.map_overall_score.map);
+  document.map_overall_score.geocoder = L.control.geocoder('search-hQHkoy8').addTo(document.map_overall_score.map);
 }
 
 // get color depending on population density value
@@ -72,7 +71,7 @@ function getColor(d) {
 }
 
 function style(feature) {
-  var country = countries[feature.id];
+  var country = countryData[feature.id];
   if (!country) {
     return {
       weight: 1,
