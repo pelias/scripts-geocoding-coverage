@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
 
-    <script src="https://mapzen.com/common/styleguide/scripts/mapzen-styleguide.min.js"></script>
-    <link rel="stylesheet" href="https://mapzen.com/common/styleguide/styles/styleguide.css">
+    <script src="javascript/styleguide.js"></script>
+    <link rel="stylesheet" href="css/styleguide.css">
 
     <link rel="stylesheet" href="css/awesomplete.css">
     <script src="javascript/awesomplete.min.js" async></script>
@@ -16,8 +16,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css">
 
+	<!-- Load Tangram -->
+	<!-- modern browsers load the optimized .mjs file, older browsers (IE11) load the transpiled .js file -->
+	<script type="module" src="https://unpkg.com/tangram/dist/tangram.min.mjs"></script>
+	<script nomodule src="https://unpkg.com/tangram/dist/tangram.min.js"></script>
+
     <!-- Load geocoding plugin after Leaflet -->
-    <script src="https://mapzen.com/tangram/0.8/tangram.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.1/leaflet-geocoder-mapzen.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.1/leaflet-geocoder-mapzen.js"></script>
 
@@ -32,8 +36,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.2.0/list.min.js"></script>
     <script src="data/countries_data.js"></script>
-    <script src="javascript/detailsTable.js"></script>
-    <script src="javascript/map_overall_score.js"></script>
+    <script defer src="javascript/detailsTable.js"></script>
+    <script defer src="javascript/map_overall_score.js"></script>
 
     <div class="container">
         <div class="col-xs-3">
@@ -95,7 +99,9 @@
     </div>
 
     <script>
-        createMap();
+		document.addEventListener("DOMContentLoaded", function() {
+			createMap();
+		});
     </script>
     <script>
         // callback function for reset country selection button
@@ -109,11 +115,13 @@
             }
         }
 
-        populateDetailsTable();
-        setupCountrySelect();
+		document.addEventListener("DOMContentLoaded", function() {
+			populateDetailsTable();
+			setupCountrySelect();
 
-        // put the cursor focus into the country selector
-        document.getElementById("countrySelect").select();
+			// put the cursor focus into the country selector
+			document.getElementById("countrySelect").select();
+		});
     </script>
 </body>
 </html>
