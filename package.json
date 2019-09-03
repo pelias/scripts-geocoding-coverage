@@ -12,15 +12,16 @@
   "license": "MIT",
   "dependencies": {
     "async": "^2.0.0-rc.3",
+    "bluebird": "^3.5.5",
     "country-code": "0.0.3",
     "countrydata": "^1.0.0",
     "countryjs": "^1.5.2",
     "csv-json": "^0.1.0",
     "csvtojson": "^0.5.14",
-    "elasticsearch": "^12.0.1",
+    "elasticsearch": "^16.3.0",
     "lodash": "^4.17.4",
     "parse-csv": "^0.2.0",
-    "pelias-config": "^1.0.3",
+    "pelias-config": "^4.1.0",
     "url-download": "0.0.5"
   }
 }
