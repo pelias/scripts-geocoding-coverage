@@ -57,7 +57,7 @@ client.searchAsync({
         "query": {
           "bool": {
             "must": [
-              { "match": { "parent.country": country.name } },
+              { "match_phrase": { "parent.country": country.name } },
               { "match": { "source": source } }
               ]
           }
@@ -79,7 +79,7 @@ client.searchAsync({
         "query": {
           "bool": {
             "must": [
-              { "match": { "parent.country": country.name } },
+              { "match_phrase": { "parent.country": country.name } },
               { "match": { "layer": layer } }
               ]
           }
